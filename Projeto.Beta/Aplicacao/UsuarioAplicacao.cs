@@ -33,12 +33,25 @@ namespace Aplicacao
 
         public ObjetoRetorno<Usuario> Salvar(Usuario usuario)
         {
+            usuarioRepositorio = new Repositorio<Usuario>();
+
+            //mantem a senha atual do usuario
+            if (!string.IsNullOrEmpty(usuario.Id) && string.IsNullOrEmpty(usuario.Senha))
+            {
+                var usuarioDoBanco = usuarioRepositorio.Collection.AsQueryable().FirstOrDefault(x => x.Id == usuario.Id);
+                usuario.Senha = usuarioDoBanco.Senha;
+            }
+
+
+
             var retorno = usuario.Verifica<Usuario>();
             retorno.SetRetorno(usuario);
             if (retorno.TemErro)
                 return retorno;
 
-            usuarioRepositorio = new Repositorio<Usuario>();
+            
+
+            
             usuarioRepositorio.Collection.Save(usuario);
             return retorno;
         }

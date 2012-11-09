@@ -29,5 +29,12 @@ namespace UI.Web.Areas.Painel.Controllers
                     return usuarioAplicacao.ListarUsuario();
             }
         }
+
+        [HttpPost]
+        public ObjetoRetorno<Usuario> Post(Usuario usuario)
+        {
+            usuarioAplicacao = new UsuarioAplicacao();
+            return usuarioAplicacao.Salvar(usuario);
+        }
     }
 }

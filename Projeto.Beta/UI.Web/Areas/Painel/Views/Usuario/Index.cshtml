@@ -11,24 +11,26 @@
             <form>
                 <div class="span12">
                     <div class="span3">
-                        <select class="span12">
-                            <option>Nome</option>
-                            <option>Login</option>
+                        <select class="span12" data-bind="options: filtros, optionsText: 'chave', optionsValue:'valor', value: filtroSelecionado">
+                            
                         </select>
                     </div>
                     <div class="span9 input-append">
-                        <input class="span9" id="appendedInputButtons" type="text">
-                        <button class="btn" type="button">Buscar</button>
+                        <input class="span9" id="appendedInputButtons" type="text" data-bind="value: busca">
+                        <button class="btn" type="button" data-bind="click: buscar">Buscar</button>
                     </div>
                 </div>
             </form>
         </div>
         <div class="span12">
-
-            <div class="alert alert-info">
-                Foram encontrados os seguintes registros
+            
+            
+            <div class="alert" data-bind="visible: informacaoDaTransacao().mensagens.length > 0, css: {'alert-error': informacaoDaTransacao().erro, 'alert-success': informacaoDaTransacao().sucesso, 'alert-info': informacaoDaTransacao().alerta }">
+                <ul data-bind="foreach: informacaoDaTransacao().mensagens">
+                    <li data-bind="text: $data"></li>
+                </ul>
             </div>
-
+            <!-- ko if: listaDeResultados().length > 0 -->
             <table class="table table-condensed table-striped table-hover">
                 <thead>
                     <tr>
@@ -38,28 +40,16 @@
                     </tr>
                 </thead>
                 <tbody>
+                    <!-- ko foreach: listaDeResultados() -->
                     <tr>
-                        <td class="span6">Cleyton Ferrari</td>
-                        <td class="span4">cleyton</td>
-                        <td class="span2"><a href="">Selecionar</a></td>
+                        <td class="span6" data-bind="text: objeto.Nome"></td>
+                        <td class="span4" data-bind="text: objeto.Login"></td>
+                        <td class="span2"><a href="javascript:;" data-bind="click: $root.preencheFormComResultadoDaBusca.bind($data, objeto)">Selecionar</a></td>
                     </tr>
-                    <tr>
-                        <td class="span6">Cleyton Ferrari</td>
-                        <td class="span4">cleyton</td>
-                        <td class="span2"><a href="">Selecionar</a></td>
-                    </tr>
-                    <tr>
-                        <td class="span6">Cleyton Ferrari</td>
-                        <td class="span4">cleyton</td>
-                        <td class="span2"><a href="">Selecionar</a></td>
-                    </tr>
-                    <tr>
-                        <td class="span6">Cleyton Ferrari</td>
-                        <td class="span4">cleyton</td>
-                        <td class="span2"><a href="">Selecionar</a></td>
-                    </tr>
+                    <!-- /ko -->
                 </tbody>
             </table>
+            <!-- /ko -->
         </div>
         <div class="span12">
             <form>
@@ -77,15 +67,15 @@
                 <div class="span12">
                     <div class="span5">
                         <label for="">Senha</label>
-                        <input class="span12" type="password">
+                        <input class="span12" type="password" data-bind="value: senha">
                     </div>
                     <div class="span5">
                         <label for="">Confirmar Senha</label>
-                        <input class="span12" type="password">
+                        <input class="span12" type="password" data-bind="value: confirmarSenha">
                     </div>
                 </div>
                 <div class="span12">
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="submit" data-bind="click: salvar" class="btn btn-primary">Submit</button>
                 </div>
             </form>
         </div>
